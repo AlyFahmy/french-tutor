@@ -1,2 +1,2 @@
-# french-utor
+# french-tutor
 French AI Tutor
