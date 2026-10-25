@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-jQEah7eNDNAgfHl2+I9n3CCPM0IObM2414GEPcDVIo8='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Wy87gjK6y9SJIf8yaSH60CJ6897d5ekJHEn7kRe3Klc='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V2.8 — Tab Navigation</title>
+<title>French AI Tutor V2.9 — Tab Navigation</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -176,7 +176,7 @@ html{scroll-padding-bottom:95px}
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V2.8</h1>
+    <h1>French AI Tutor · V2.9</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -686,6 +686,28 @@ $("#replay").onclick=()=>{
   recordedAudio.play().catch(()=>showMsg("bad","Playback unavailable","This browser could not play the recorded audio."));
 };
 let captureErr = "", recOnlyMode = false, pendingStart = false;
+let peak = 0, meterOK = false, meterCtx = null, meterTimer = null;
+function startMeter(stream){
+  peak = 0; meterOK = false;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    meterCtx = new AC();
+    const an = meterCtx.createAnalyser(); an.fftSize = 1024;
+    meterCtx.createMediaStreamSource(stream).connect(an);
+    const buf = new Uint8Array(an.fftSize);
+    meterTimer = setInterval(()=>{
+      an.getByteTimeDomainData(buf);
+      let m = 0; for(let i=0;i<buf.length;i++){ const d = Math.abs(buf[i]-128); if(d>m) m = d; }
+      if(m>peak) peak = m;
+    },60);
+    meterOK = true;
+  }catch(e){}
+}
+function stopMeter(){
+  clearInterval(meterTimer); meterTimer = null;
+  if(meterCtx){ try{meterCtx.close()}catch(e){} meterCtx = null; }
+}
+function recOnlyPref(){ try{ return sessionStorage.getItem("ft_recOnly")==="1"; }catch(e){ return false; } }
 function pickMime(){
   if(!window.MediaRecorder || !MediaRecorder.isTypeSupported) return "";
   return ["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/ogg;codecs=opus"].find(t => MediaRecorder.isTypeSupported(t)) || "";
@@ -712,9 +734,10 @@ async function captureVoice(token,index){
     const mime = pickMime(), chunks = [];
     const r = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream);
     recorder = r;
+    startMeter(stream);
     r.ondataavailable = e => {if(e.data && e.data.size)chunks.push(e.data)};
     r.onstop = () => {
-      stream.getTracks().forEach(t=>t.stop());clearTimeout(recTimer);
+      stream.getTracks().forEach(t=>t.stop());clearTimeout(recTimer);stopMeter();
       if(recorder===r)recorder=null;
       if(token===captureToken && chunks.length){
         saveReplay(new Blob(chunks,{type:r.mimeType||mime||"audio/webm"}),index);
@@ -738,7 +761,7 @@ function stopAll(){
   try { if (synthOK) speechSynthesis.cancel(); } catch(e){}
   try { if (recog) { recog.onend = null; recog.abort(); } } catch(e){}
   try { if (recorder && recorder.state === "recording") { recorder.onstop = null; recorder.stream.getTracks().forEach(t => t.stop()); recorder.stop(); } } catch(e){}
-  clearTimeout(recTimer); recog = null; recorder = null; recOnlyMode = false; setRecording(false);
+  clearTimeout(recTimer); recog = null; recorder = null; recOnlyMode = false; stopMeter(); setRecording(false);
 }
 function showMsg(tone, title, detail){
   const root=$("#result"), head=document.createElement("div"), body=document.createElement("div");
@@ -804,7 +827,15 @@ async function srFailed(code,cap,token,index){
   const ok = await cap;
   if(token!==captureToken) return;
   if(!ok){ finishCapture(); setRecording(false); recError(captureErr || code); return; }
-  if(code==="no-speech" || code==="aborted"){ finishCapture(); setRecording(false); recError("no-speech"); return; }
+  if(code==="no-speech" || code==="aborted"){
+    const heard = meterOK && peak >= 8;
+    finishCapture(); setRecording(false);
+    if(heard){
+      try{ sessionStorage.setItem("ft_recOnly","1"); }catch(e){}
+      showMsg("warn","Recording saved","Your voice was recorded, but this phone cannot share the microphone with speech recognition, so there is no automatic match. Tap Listen to your pronunciation to compare with the model.");
+    } else recError("no-speech");
+    return;
+  }
   const why = SR_WHY[code] || ("Speech recognition error: " + code + ".");
   if(recordedURL && recordingIndex===index){ setRecording(false); showMsg("good","Recording saved",why+" Use Listen to your pronunciation to hear yourself."); return; }
   if(recorder){ recOnlyMode = true; setRecording(true); showMsg("warn","Automatic check unavailable",why+" Your voice is still being recorded. Tap to stop, then use Listen to your pronunciation."); return; }
@@ -816,7 +847,7 @@ function toggleRecord(){
   if (recorder){ finishCapture(); return; }
   if (synthOK) speechSynthesis.cancel();
   clearReplay();clearResult();
-  SR ? startRecognition() : startFallback();
+  (SR && !recOnlyPref()) ? startRecognition() : startFallback();
 }
 function startRecognition(){
   const token=++captureToken, index=st.i;
