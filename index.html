@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-A0ZA/ZkzE9rfM8vb5rN6ryIRDI15hw9Vbznj+Nv4AYw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-U2hZPqUAm6+xHrv5LU8t8QXbSWw8BM6oTPxfbwpHV1w='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V3.0 — Tab Navigation</title>
+<title>French AI Tutor V3.1 — Tab Navigation</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -179,7 +179,7 @@ html{scroll-padding-bottom:95px}
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V3.0</h1>
+    <h1>French AI Tutor · V3.1</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -188,7 +188,7 @@ html{scroll-padding-bottom:95px}
 
   <div class="modebar" hidden aria-hidden="true"><button data-mode="learn">Learn</button><button data-mode="pronounce">Pronounce</button><button data-mode="review">Smart Review</button><button data-mode="conversation">Conversation</button></div>
   <div id="learnPanel" class="tab-panel">
-  <div class="activity-header"><span id="activityTitle">Learn French</span><span class="subtle">182 words & phrases</span></div>
+  <div class="activity-header"><span id="activityTitle">Learn French</span><span class="subtle" id="courseCount">182 words & phrases</span></div>
   <div class="practice-tools" id="practiceTools" hidden><button id="pronounceMode" type="button">🎙 Pronounce</button><button id="conversationMode" type="button">💬 Conversations</button></div>
   <div class="lessonbox"><strong>Lesson</strong><select id="lesson"></select></div>
   <div class="progressbox"><div class="stat"><strong id="masteredStat">0</strong><span>Mastered</span></div><div class="stat"><strong id="practiceStat">0</strong><span>Practiced</span></div><div class="stat"><strong id="streakStat">0</strong><span>Today</span></div></div>
@@ -240,7 +240,9 @@ html{scroll-padding-bottom:95px}
     <div class="convbox" id="convbox">
       <div class="bubble tutor" id="tutorBubble">Bonjour ! Choose a mini conversation and practise speaking.</div>
       <div class="bubble learner" id="learnerBubble">Your reply will appear here.</div>
-      <div class="conv-actions"><button id="convNew">New dialogue</button><button id="convSpeak">Hear tutor</button></div>
+      <div class="smallnote" id="convMeta"></div>
+      <select id="dlgSel" aria-label="Choose a dialogue" style="width:100%;margin-top:6px"></select>
+      <div class="conv-actions" style="flex-wrap:wrap"><button id="convSpeak">Hear tutor</button><button id="convHear">Hear reply</button><button id="convNext">Next turn</button><button id="convNew">New dialogue</button></div>
       <div class="smallnote">Mini conversations use phrases from this course. Speech recognition availability depends on the browser.</div>
     </div>
 
@@ -319,6 +321,7 @@ html{scroll-padding-bottom:95px}
   <div class="grid" id="grid"></div>
 </dialog>
 
+<script src="content.js"></script>
 <script>
 // [word/phrase, IPA, English, Arabic, emoji, tip, type: "word" or "phrase"]
 const WORDS = [
@@ -507,6 +510,7 @@ const WORDS = [
  ["pas de problème","pa də pʁɔ.blɛm","no problem","لا مشكلة","👍","","phrase"],
  ["d’accord","da.kɔʁ","okay, agreed","حسنًا","✅","","phrase"]
 ];
+if (typeof WORDS_EXTRA !== "undefined") WORDS_EXTRA.forEach(w => WORDS.push(w.slice(0,7)));
 const N = WORDS.length;
 const $ = s => document.querySelector(s);
 (function buildJump(){
@@ -546,7 +550,7 @@ function render(dir){
   const card = $("#card");
   card.style.setProperty("--dx", (dir < 0 ? -12 : 12) + "px");
   card.classList.remove("swap"); void card.offsetWidth; if (dir) card.classList.add("swap");
-  $("#tile").textContent = w[4];
+  $("#tile").textContent = w[4] || (w[6] === "phrase" ? "💬" : "🔤");
   $("#tile").style.setProperty("--h", (st.i * 47 + 200) % 360);
   $("#word").textContent = w[0];
   const ipa = $("#ipa"); ipa.textContent = "/" + w[1].replace(/\./g, "·") + "/"; ipa.hidden = !st.ipa;
@@ -625,7 +629,7 @@ async function resolveFrench() {
   if (lookupInProgress) { $("#customNote").textContent = "Translation is already in progress."; return ""; }
   if (lang === "fr") { showTranslation(input, "French input — no translation needed."); return input; }
   const offline = findOffline(input, lang);
-  if (offline) { showTranslation(offline, "Found in the 182-item offline vocabulary."); return offline; }
+  if (offline) { showTranslation(offline, "Found in the " + N + "-item offline vocabulary."); return offline; }
   const sourceLang = lang === "auto" ? detectedLanguage(input) : lang;
   if (!navigator.onLine) { showTranslation("", "Not in offline vocabulary. Connect to the internet for a translation."); return ""; }
   if (!window.confirm("This phrase is not in the offline vocabulary. Send it to the MyMemory translation service for translation into French? Do not send sensitive information.")) {
@@ -818,8 +822,9 @@ function lev(a, b){
   }
   return prev[n];
 }
+let convTarget = "";
 function score(alts){
-  const full = cur()[0];
+  const full = (st.mode === "conversation" && convTarget) ? convTarget : cur()[0];
   const bare = full.replace(/^(le|la|les|un|une|l[’'])\s*/i, "");
   const targets = [norm(full), norm(bare)].filter(Boolean);
   let best = 0, heard = alts[0] || "";
@@ -948,14 +953,23 @@ $("#listBtn").onclick = () => {
 
 /* ---------- V2 lessons, review, conversations & progress ---------- */
 const LESSONS=[
-  ["all","Full Course — 182 items",0,N-1],
+  ["all","Full Course — "+N+" items",0,N-1],
   ["basics","1. Greetings & Basics",0,49],
   ["actions","2. Actions & Questions",50,83],
   ["fun","3. Fun, Places & Time",84,107],
   ["food","4. Food & Drinks",108,139],
   ["school","5. School & People",140,165],
-  ["conversation","6. Everyday Conversation",166,N-1]
+  ["conversation","6. Everyday Conversation",166,181]
 ];
+if (typeof WORDS_EXTRA !== "undefined") {
+  const seen = {}; let num = 7;
+  WORDS_EXTRA.forEach((w, k) => {
+    const name = w[7] || "More words", idx = 182 + k;
+    if (!seen[name]) { seen[name] = ["x" + num, num + ". " + name, idx, idx]; LESSONS.push(seen[name]); num++; }
+    else seen[name][3] = idx;
+  });
+}
+$("#courseCount").textContent = N + " words & phrases";
 const lessonSel=$("#lesson");
 LESSONS.forEach(x=>{const o=document.createElement("option");o.value=x[0];o.textContent=x[1];lessonSel.appendChild(o)});
 lessonSel.value=st.lesson||"all";
@@ -974,7 +988,7 @@ function setMode(m){
  $("#record").style.display=(m==="learn")?"none":"flex";
  $("#replay").style.display=(m==="learn")?"none":"flex";
  $("#replayNote").style.display=(m==="learn")?"none":"block"; syncCheck();
- if(m==="review") pickReview(); else if(m==="conversation") newConversation(); else render(0);
+ if(m==="review") pickReview(); else if(m==="conversation") newConversation(activeDialogue); else render(0);
 }
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 function pickReview(){
@@ -989,13 +1003,37 @@ const DIALOGUES=[
  ["Bonjour. Je voudrais du café, s’il vous plaît.","je voudrais..."],
  ["Combien ça coûte ?","combien ça coûte ?"],
  ["Au revoir. Bonne journée !","bonne journée"]
-];
-let activeDialogue=0;
-function newConversation(){activeDialogue=(activeDialogue+1)%DIALOGUES.length;$("#tutorBubble").textContent=DIALOGUES[activeDialogue][0];$("#learnerBubble").textContent="Suggested reply: "+DIALOGUES[activeDialogue][1]+" — say it aloud using Record."}
-$("#convNew").onclick=newConversation;
-$("#convSpeak").onclick=()=>{if(!synthOK)return; speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(DIALOGUES[activeDialogue][0]);u.lang="fr-FR";const v=voices.find(v=>/fr[-_]FR/i.test(v.lang))||voices[0];if(v)u.voice=v;speechSynthesis.speak(u)};
+].map((d,i)=>({title:"Quick exchange "+(i+1),situation:"One question and one reply",level:"A1",lines:[{who:"Tuteur",fr:d[0],en:""},{who:"Vous",fr:d[1].replace(/\.\.\.$/,"").trim(),en:""}]}));
+if (typeof DIALOGUES_EXTRA !== "undefined") DIALOGUES_EXTRA.forEach(d => DIALOGUES.push(d));
+let activeDialogue=0, activeTurn=0;
+function dlgTurns(d){const t=[];d.lines.forEach((l,j)=>{if(l.who==="Vous"){const prev=j>0&&d.lines[j-1].who!=="Vous"?d.lines[j-1]:null;t.push({tutor:prev,reply:l})}});return t}
+function showTurn(){
+  const d=DIALOGUES[activeDialogue], turns=dlgTurns(d), t=turns[activeTurn];
+  $("#tutorBubble").textContent=t.tutor?t.tutor.fr:"À vous !";
+  $("#learnerBubble").textContent="Your reply: "+t.reply.fr+(t.reply.en?" ("+t.reply.en+")":"")+" — say it aloud using Record.";
+  $("#convMeta").textContent=d.title+" · "+d.situation+" · "+d.level+" · turn "+(activeTurn+1)+"/"+turns.length+(t.tutor&&t.tutor.en?" · Tutor: "+t.tutor.en:"");
+  convTarget=t.reply.fr; $("#dlgSel").value=String(activeDialogue);
+  clearResult();clearReplay();
+}
+function newConversation(i){
+  activeDialogue=(typeof i==="number")?i:(activeDialogue+1)%DIALOGUES.length; activeTurn=0; showTurn();
+}
+function nextTurn(){
+  const turns=dlgTurns(DIALOGUES[activeDialogue]);
+  if(activeTurn+1<turns.length){activeTurn++;showTurn()} else newConversation();
+}
+(function buildDialogueSelect(){
+  const sel=$("#dlgSel");
+  DIALOGUES.forEach((d,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent=(i+1)+". "+d.title;sel.appendChild(o)});
+  sel.onchange=()=>newConversation(parseInt(sel.value,10));
+})();
+$("#convNew").onclick=()=>newConversation();
+$("#convNext").onclick=nextTurn;
+function speakFr(text){if(!synthOK||!text)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="fr-FR";const v=voices.find(v=>/fr[-_]FR/i.test(v.lang))||voices[0];if(v)u.voice=v;speechSynthesis.speak(u)}
+$("#convSpeak").onclick=()=>{const t=dlgTurns(DIALOGUES[activeDialogue])[activeTurn];speakFr(t.tutor?t.tutor.fr:"")};
+$("#convHear").onclick=()=>{speakFr(dlgTurns(DIALOGUES[activeDialogue])[activeTurn].reply.fr)};
 const oldEvaluate=evaluate;
-evaluate=function(alts){const {best}=score(alts);st.scores[st.i]=Math.max(st.scores[st.i]||0,best);markToday();oldEvaluate(alts);updateStats();if(st.mode==="conversation")$("#learnerBubble").textContent="I heard: "+(alts[0]||"");};
+evaluate=function(alts){const {best}=score(alts);if(st.mode!=="conversation")st.scores[st.i]=Math.max(st.scores[st.i]||0,best);markToday();oldEvaluate(alts);updateStats();if(st.mode==="conversation")$("#learnerBubble").textContent="I heard: "+(alts[0]||"");};
 const oldSpeak=speak;speak=function(){oldSpeak();updateStats()};
 const oldGo=go;go=function(d){const r=lessonRange();const n=st.i+d;if(n<r[2]||n>r[3])return;oldGo(d)};
 
