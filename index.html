@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Wy87gjK6y9SJIf8yaSH60CJ6897d5ekJHEn7kRe3Klc='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-A0ZA/ZkzE9rfM8vb5rN6ryIRDI15hw9Vbznj+Nv4AYw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V2.9 — Tab Navigation</title>
+<title>French AI Tutor V3.0 — Tab Navigation</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -87,6 +87,9 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding-bottom
 .record[aria-pressed="true"] svg{animation:pulse 1s ease-in-out infinite}
 .replay{background:var(--accent-soft);color:var(--accent)}
 .replay:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.check{background:var(--accent);color:#fff;display:none}
+.check:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.check[aria-pressed="true"]{background:#c8233b}
 @keyframes pulse{50%{transform:scale(1.25)}}
 .meta{display:flex;justify-content:space-between;align-items:center;padding:0 6px 8px;color:var(--muted);font-size:.95rem;min-height:38px}
 .chip{padding:6px 12px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:.9rem;min-height:32px}
@@ -176,7 +179,7 @@ html{scroll-padding-bottom:95px}
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V2.9</h1>
+    <h1>French AI Tutor · V3.0</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -224,6 +227,10 @@ html{scroll-padding-bottom:95px}
       <button class="big replay" id="replay" disabled aria-label="Listen to your pronunciation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg>
         <span>Listen to your pronunciation</span>
+      </button>
+      <button class="big check" id="check" disabled aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+        <span id="checkLabel">Check my word</span>
       </button>
       <p class="note" id="replayNote" style="text-align:center">Record your voice first to enable playback.</p>
     </div>
@@ -669,14 +676,14 @@ let recordedURL = null, recordedAudio = null, recordingIndex = -1, captureToken 
 function clearReplay(){
   if(recordedAudio){recordedAudio.pause();recordedAudio.src="";recordedAudio=null;}
   if(recordedURL){URL.revokeObjectURL(recordedURL);recordedURL=null;}
-  recordingIndex=-1; $("#replay").disabled=true;
+  recordingIndex=-1; $("#replay").disabled=true; $("#check").disabled=true;
   $("#replayNote").textContent="Record your voice first to enable playback.";
 }
 function saveReplay(blob,index){
   if(!blob.size || index!==st.i)return;
   clearReplay();recordedURL=URL.createObjectURL(blob);recordingIndex=index;
-  $("#replay").disabled=false;
-  $("#replayNote").textContent="Your recording is ready. Tap to hear yourself.";
+  $("#replay").disabled=false; $("#check").disabled=false;
+  $("#replayNote").textContent=checkNeeded?"Your recording is ready. Tap Check my word and say the word once more.":"Your recording is ready. Tap to hear yourself.";
 }
 $("#replay").onclick=()=>{
   if(!recordedURL || recordingIndex!==st.i)return;
@@ -741,7 +748,7 @@ async function captureVoice(token,index){
       if(recorder===r)recorder=null;
       if(token===captureToken && chunks.length){
         saveReplay(new Blob(chunks,{type:r.mimeType||mime||"audio/webm"}),index);
-        if(recOnlyMode) showMsg("good","Recording saved","Use Listen to your pronunciation to hear yourself, then compare with the model.");
+        if(recOnlyMode) showMsg("good","Recording saved",SR?"Tap Listen to your pronunciation to hear yourself, then tap Check my word and say the word once more.":"Use Listen to your pronunciation to hear yourself, then compare with the model.");
       }
       if(!recog)setRecording(false);
     };
@@ -752,12 +759,44 @@ async function captureVoice(token,index){
 }
 function finishCapture(){if(recorder?.state==="recording")recorder.stop();}
 
+let checkNeeded = false, checkRec = null;
+function syncCheck(){ $("#check").style.display = (checkNeeded && st.mode!=="learn") ? "flex" : "none"; }
+function needCheck(){ checkNeeded = true; syncCheck(); if(recordedURL && recordingIndex===st.i) $("#replayNote").textContent="Your recording is ready. Tap Check my word and say the word once more."; }
+function setChecking(on){
+  $("#check").setAttribute("aria-pressed", on);
+  $("#checkLabel").textContent = on ? "Listening… say the word" : "Check my word";
+}
+function checkWord(){
+  if(checkRec){ try{checkRec.stop()}catch(e){} return; }
+  if(recog || recorder || pendingStart || !SR) return;
+  if(synthOK) speechSynthesis.cancel();
+  clearResult();
+  const token=++captureToken, index=st.i;
+  const r = new SR(); checkRec = r;
+  r.lang="fr-FR"; r.interimResults=false; r.continuous=false; r.maxAlternatives=5;
+  let got=false, code="";
+  r.onresult = e => { if(token!==captureToken || index!==st.i) return; got=true; evaluate(Array.from(e.results[0]).map(a=>a.transcript)); };
+  r.onerror = e => { code = e.error; };
+  r.onend = () => {
+    checkRec = null; setChecking(false);
+    if(token!==captureToken || got) return;
+    if(code==="no-speech" || code==="aborted" || !code) recError("no-speech");
+    else if(code==="not-allowed" || code==="service-not-allowed") recError("not-allowed");
+    else if(code==="network") recError("network");
+    else if(code==="audio-capture") recError("audio-capture");
+    else showMsg("bad","Check unavailable", (SR_WHY[code] || ("Speech recognition error: "+code+".")));
+  };
+  try{ r.start(); setChecking(true); }
+  catch(e){ checkRec=null; setChecking(false); showMsg("bad","Check unavailable","Speech recognition could not start. Try again."); }
+}
+$("#check").onclick = checkWord;
 function setRecording(on){
   $("#record").setAttribute("aria-pressed", on);
   $("#recLabel").textContent = on ? "Listening… tap to stop" : "Record your pronunciation";
 }
 function stopAll(){
   captureToken++;clearReplay();
+  try { if (checkRec) { checkRec.onend = null; checkRec.abort(); } } catch(e){} checkRec = null; setChecking(false);
   try { if (synthOK) speechSynthesis.cancel(); } catch(e){}
   try { if (recog) { recog.onend = null; recog.abort(); } } catch(e){}
   try { if (recorder && recorder.state === "recording") { recorder.onstop = null; recorder.stream.getTracks().forEach(t => t.stop()); recorder.stop(); } } catch(e){}
@@ -832,12 +871,13 @@ async function srFailed(code,cap,token,index){
     finishCapture(); setRecording(false);
     if(heard){
       try{ sessionStorage.setItem("ft_recOnly","1"); }catch(e){}
-      showMsg("warn","Recording saved","Your voice was recorded, but this phone cannot share the microphone with speech recognition, so there is no automatic match. Tap Listen to your pronunciation to compare with the model.");
+      needCheck();
+      showMsg("warn","Recording saved","This phone cannot use the microphone for recording and recognition at the same time. Tap Listen to your pronunciation to hear yourself, then tap Check my word and say the word once more.");
     } else recError("no-speech");
     return;
   }
   const why = SR_WHY[code] || ("Speech recognition error: " + code + ".");
-  if(recordedURL && recordingIndex===index){ setRecording(false); showMsg("good","Recording saved",why+" Use Listen to your pronunciation to hear yourself."); return; }
+  if(recordedURL && recordingIndex===index){ setRecording(false); needCheck(); showMsg("good","Recording saved",why+" Use Listen to your pronunciation to hear yourself, then try Check my word."); return; }
   if(recorder){ recOnlyMode = true; setRecording(true); showMsg("warn","Automatic check unavailable",why+" Your voice is still being recorded. Tap to stop, then use Listen to your pronunciation."); return; }
   setRecording(false); recError(code);
 }
@@ -847,7 +887,7 @@ function toggleRecord(){
   if (recorder){ finishCapture(); return; }
   if (synthOK) speechSynthesis.cancel();
   clearReplay();clearResult();
-  (SR && !recOnlyPref()) ? startRecognition() : startFallback();
+  (SR && !recOnlyPref()) ? startRecognition() : (SR && needCheck(), startFallback());
 }
 function startRecognition(){
   const token=++captureToken, index=st.i;
@@ -933,7 +973,7 @@ function setMode(m){
  $("#convbox").classList.toggle("on",m==="conversation");
  $("#record").style.display=(m==="learn")?"none":"flex";
  $("#replay").style.display=(m==="learn")?"none":"flex";
- $("#replayNote").style.display=(m==="learn")?"none":"block";
+ $("#replayNote").style.display=(m==="learn")?"none":"block"; syncCheck();
  if(m==="review") pickReview(); else if(m==="conversation") newConversation(); else render(0);
 }
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
