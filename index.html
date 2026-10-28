@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-rBUC5q3Yd4oYre3IIg5CfxqkMezvrOWzt/mtduz+YVw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-weIohZzFdbtzLHKUWT19jEdFVSJdj+sU2sTDX2RKFZw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V3.1 — Tab Navigation</title>
+<title>French AI Tutor V3.2 — Verbs</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -155,7 +155,7 @@ html{scroll-padding-bottom:95px}
 .app{padding-bottom:calc(82px + env(safe-area-inset-bottom));}
 .modebar[hidden],.tab-panel[hidden],.practice-tools[hidden]{display:none!important}
 .tab-panel{width:100%;min-width:0}
-.bottom-tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,460px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line);z-index:20;box-shadow:0 -5px 18px rgba(20,27,61,.07)}
+.bottom-tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,460px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line);z-index:20;box-shadow:0 -5px 18px rgba(20,27,61,.07)}
 .bottom-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:55px;border-radius:14px;font-size:.78rem;color:var(--muted);font-weight:650}
 .bottom-tabs button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
 .tab-icon{font-size:1.35rem;line-height:1.2}
@@ -174,6 +174,21 @@ html{scroll-padding-bottom:95px}
 #translatePanel .custom-controls .big{flex-basis:45%}
 @media(max-width:350px){.bottom-tabs button{font-size:.68rem}.activity-header{flex-direction:column;align-items:flex-start}}
 body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body.convmode #card,body.convmode #listen,body.convmode .actions .meta{display:none!important}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.chips .chip[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:700;border-color:var(--accent)}
+.vcard{text-align:center}.vcard .word{font-size:2.4rem}
+.vrow{border-top:1px solid var(--line);padding:8px 0;text-align:left}
+.vtop{display:flex;align-items:center;gap:8px}.vform{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;flex:1;min-width:0;overflow-wrap:anywhere}
+.vipa{color:var(--accent);font-size:.82rem}
+.vtop button{width:42px;height:42px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:1.1rem;flex:none}
+.vtop button.on{background:var(--bad);color:#fff}
+.vex{display:block;width:100%;text-align:left;padding:4px 0 0;color:var(--ink);font-size:.92rem;line-height:1.35}.vex small{display:block;color:var(--muted);font-size:.82rem}
+.qq{font-family:Georgia,"Times New Roman",serif;font-size:1.5rem;text-align:center;margin:10px 0 4px;line-height:1.3}
+.qopt{display:block;width:100%;margin:8px 0;padding:13px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-weight:650;font-size:1.05rem}
+.qopt.ok{background:var(--accent-soft);border-color:var(--good);color:var(--good)}.qopt.no{border-color:var(--bad);color:var(--bad)}
+.qopt:disabled{opacity:1}
+#verbsPanel.inquiz .lessonbox,#verbsPanel.inquiz #tenseChips{display:none!important}
+@media(max-width:350px){.bottom-tabs button{font-size:.62rem}}
 </style>
 </head>
 <body>
@@ -182,7 +197,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V3.1</h1>
+    <h1>French AI Tutor · V3.2</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -288,10 +303,41 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <div id="progressHome"></div>
     <button class="big listen" id="startReview" type="button">🧠 Start Smart Review</button>
   </section>
+  <section id="verbsPanel" class="tab-panel" hidden>
+    <div class="activity-header"><span>🔤 Verbs</span><span class="subtle" id="verbCount"></span></div>
+    <div class="chips" id="tenseChips" hidden></div>
+    <div class="lessonbox"><strong>Verb</strong><select id="verbSel" aria-label="Choose a verb"></select></div>
+    <div id="verbMain">
+      <section class="card vcard">
+        <div class="word" id="vInf" lang="fr"></div>
+        <div class="ipa" id="vIpa"></div>
+        <div class="gloss" id="vEn"></div>
+        <div id="vList"></div>
+      </section>
+      <div class="actions">
+        <button class="big listen" id="vAll" type="button"><span>🔊 Listen to all six forms</span></button>
+        <button class="big replay" id="vQuiz" type="button"><span>✎ Quick quiz on this verb</span></button>
+      </div>
+      <div class="result" id="vResult" aria-live="polite" hidden></div>
+      <p class="smallnote">Tap 🔊 to hear a form, 🎤 to say it and check it, or an example sentence to hear it. Recognition match is not a pronunciation accuracy score.</p>
+      <nav>
+        <button id="vPrev" type="button">← Previous verb</button>
+        <button id="vNext" type="button">Next verb →</button>
+      </nav>
+    </div>
+    <div id="quizBox" hidden>
+      <div class="activity-header"><span id="quizTitle"></span><span class="subtle" id="quizCount"></span></div>
+      <section class="card"><div class="qq" id="quizQ"></div><div class="gloss" id="quizEn"></div></section>
+      <div id="quizOpts"></div>
+      <div class="result" id="quizRes" aria-live="polite" hidden></div>
+      <div class="actions"><button class="big listen" id="quizNext" type="button" hidden>Next question →</button><button class="big replay" id="quizBack" type="button">Back to the verb</button></div>
+    </div>
+  </section><!-- verbsPanel -->
   <div class="bottom-tabs" role="tablist" aria-label="Main navigation">
     <button type="button" role="tab" aria-selected="true" data-tab="learn"><span class="tab-icon">📖</span><span>Learn</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="translate"><span class="tab-icon">🌍</span><span>Translate</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="practice"><span class="tab-icon">🎙️</span><span>Practice</span></button>
+    <button type="button" role="tab" aria-selected="false" data-tab="verbs"><span class="tab-icon">🔤</span><span>Verbs</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="progress"><span class="tab-icon">📈</span><span>Progress</span></button>
   </div>
 </div>
@@ -1090,6 +1136,129 @@ tabButtons.forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
 document.getElementById('pronounceMode').addEventListener('click',()=>{setMode('pronounce');updatePracticeButtons()});
 document.getElementById('conversationMode').addEventListener('click',()=>{setMode('conversation');updatePracticeButtons()});
 document.getElementById('startReview').addEventListener('click',()=>{switchTab('practice');setMode('review');updatePracticeButtons()});
+/* ---------- V3.2 Verbs tab ---------- */
+(function(){
+ const tabBtn=document.querySelector('[data-tab="verbs"]');
+ if(typeof VERBS==="undefined"||!Array.isArray(VERBS)||!VERBS.length){ if(tabBtn)tabBtn.hidden=true; document.querySelector(".bottom-tabs").style.gridTemplateColumns="repeat(4,minmax(0,1fr))"; return; }
+ panels.verbs=$("#verbsPanel");
+ const KEY="fr-verbs-v1"; let vs={best:{}};
+ try{ vs=Object.assign(vs,JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
+ const saveV=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(vs)); }catch(e){} };
+ const TN={present:"Présent",passe:"Passé composé",futur:"Futur proche"};
+ let vi=0, tense="present", vrec=null, quiz=null;
+ const sel=$("#verbSel");
+ const tensesOf=v=>Object.keys(TN).filter(t=>v[t]&&v[t].length);
+ const spoken=f=>f.replace(/ \/ elles?/,"");
+ const lastWord=f=>spoken(f).split(/[\s’']+/).pop();
+ function vMsg(tone,title,detail,id){
+  const root=$(id||"#vResult"),head=document.createElement("div"),body=document.createElement("div");
+  head.className="title "+tone;head.textContent=title;body.className="detail";body.textContent=detail;
+  root.replaceChildren(head,body);root.hidden=false;
+ }
+ function say(texts){
+  if(!synthOK){vMsg("bad","Playback unavailable","This browser can't play speech. Try Chrome, Edge or Safari.");return;}
+  speechSynthesis.cancel();
+  const list=(Array.isArray(texts)?texts:[texts]).map(t=>{
+   const u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";
+   const v=voices.find(v=>v.voiceURI===st.voice)||voices.find(v=>/fr[-_]FR/i.test(v.lang))||voices[0];
+   if(v){u.voice=v;u.lang=v.lang;} u.rate=st.slow?0.55:st.rate; return u;
+  });
+  keepAlive=list; list.forEach(u=>speechSynthesis.speak(u));
+ }
+ function buildSelect(){
+  sel.replaceChildren();
+  VERBS.forEach((v,i)=>{const o=document.createElement("option");o.value=String(i);
+   const b=vs.best[v.inf]; o.textContent=(i+1)+". "+v.inf+" — "+v.en+(b!==undefined?"  ★ "+b+"/6":""); sel.append(o);});
+  sel.value=String(vi);
+  $("#verbCount").textContent=VERBS.length+" verbs";
+ }
+ function renderVerb(){
+  stopRec(); const v=VERBS[vi]; const ts=tensesOf(v); if(!ts.includes(tense))tense=ts[0];
+  $("#vInf").textContent=v.inf;$("#vIpa").textContent=v.ipa;$("#vEn").textContent=v.en;
+  const box=$("#tenseChips"); box.replaceChildren(); box.hidden=ts.length<2;
+  ts.forEach(t=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=TN[t];b.setAttribute("aria-pressed",String(t===tense));b.onclick=()=>{tense=t;renderVerb();};box.append(b);});
+  const list=$("#vList"); list.replaceChildren();
+  v[tense].forEach(f=>{
+   const row=document.createElement("div");row.className="vrow";
+   const top=document.createElement("div");top.className="vtop";
+   const form=document.createElement("span");form.className="vform";form.textContent=f.f;
+   const ipa=document.createElement("span");ipa.className="vipa";ipa.textContent=f.ipa;
+   const b1=document.createElement("button");b1.type="button";b1.textContent="🔊";b1.setAttribute("aria-label","Listen to "+f.f);b1.onclick=()=>say(spoken(f.f));
+   const b2=document.createElement("button");b2.type="button";b2.className="vmic";b2.textContent="🎤";b2.setAttribute("aria-label","Say "+f.f+" and check it");b2.onclick=()=>sayCheck(f,b2);
+   top.append(form,ipa,b1,b2);
+   const ex=document.createElement("button");ex.type="button";ex.className="vex";ex.append(document.createTextNode(f.fr));
+   const sm=document.createElement("small");sm.textContent=f.en;ex.append(sm);ex.onclick=()=>say(f.fr);
+   row.append(top,ex);list.append(row);
+  });
+  $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#verbsPanel").classList.remove("inquiz"); sel.value=String(vi);
+  $("#vPrev").disabled=vi===0; $("#vNext").disabled=vi===VERBS.length-1;
+ }
+ function stopRec(){ try{ if(vrec){vrec.onend=null;vrec.abort();} }catch(e){} vrec=null; document.querySelectorAll(".vmic.on").forEach(b=>b.classList.remove("on")); }
+ function sayCheck(f,btn){
+  if(!SR){vMsg("warn","Recognition unavailable","This browser has no speech recognition. Try Chrome on Android or desktop.");return;}
+  try{speechSynthesis.cancel();}catch(e){} stopRec();
+  const r=new SR();r.lang="fr-FR";r.interimResults=false;r.maxAlternatives=5;vrec=r;btn.classList.add("on");
+  let got=false;
+  r.onresult=e=>{
+   got=true; const alts=Array.from(e.results[0]).map(x=>x.transcript);
+   const targets=[norm(spoken(f.f)),norm(lastWord(f.f))]; let best=0,heard=alts[0]||"";
+   alts.forEach(t=>{const h=norm(t);targets.forEach(g=>{const s=1-lev(h,g)/Math.max(h.length,g.length,1);if(s>best){best=s;heard=t;}});});
+   const pct=Math.round(best*100);
+   if(best>=0.9)vMsg("good","Très bien! · "+pct+"% recognition match","Heard: “"+heard+"”. Several forms sound the same in French, so check the spelling too.");
+   else if(best>=0.65)vMsg("warn","Presque · "+pct+"% recognition match","Heard: “"+heard+"”. Listen again and match the final sound.");
+   else vMsg("bad","Pas encore · "+pct+"% recognition match","Heard: “"+heard+"”. Listen once more and try again.");
+  };
+  r.onerror=e=>{got=true;vMsg("bad","Could not listen",e.error==="not-allowed"||e.error==="service-not-allowed"?"Allow the microphone for this site, then try again.":"Speech recognition error ("+e.error+"). Try again.");};
+  r.onend=()=>{btn.classList.remove("on");vrec=null;if(!got)vMsg("warn","Nothing heard","Tap 🎤 and say the form clearly.");};
+  try{r.start();}catch(e){btn.classList.remove("on");vrec=null;vMsg("bad","Could not start","Speech recognition could not start. Try again.");}
+ }
+ /* quiz */
+ const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+ function blank(f){
+  const w=lastWord(f.f), re=new RegExp("(^|[^\\p{L}])("+w+")(?![\\p{L}])","iu"), m=re.exec(f.fr);
+  if(!m)return null; const at=m.index+m[1].length;
+  return {w, text:f.fr.slice(0,at)+"____"+f.fr.slice(at+w.length)};
+ }
+ function startQuiz(){
+  stopRec(); try{speechSynthesis.cancel();}catch(e){}
+  const v=VERBS[vi], forms=v[tense], items=forms.map(f=>({f,b:blank(f)})).filter(x=>x.b);
+  const all=Array.from(new Set(forms.map(f=>lastWord(f.f))));
+  quiz={items:shuffle(items),n:0,score:0,all,verb:v.inf};
+  $("#verbMain").hidden=true;$("#quizBox").hidden=false;$("#verbsPanel").classList.add("inquiz");$("#quizTitle").textContent="Quiz · "+v.inf+" · "+TN[tense];
+  showQ();
+ }
+ function showQ(){
+  const q=quiz.items[quiz.n]; $("#quizCount").textContent=(quiz.n+1)+" / "+quiz.items.length;
+  $("#quizQ").textContent=q.b.text; $("#quizEn").textContent=q.f.en; $("#quizRes").hidden=true; $("#quizNext").hidden=true; $("#quizBack").hidden=false;
+  const opts=shuffle([q.b.w,...shuffle(quiz.all.filter(w=>w!==q.b.w)).slice(0,3)]);
+  const box=$("#quizOpts"); box.replaceChildren();
+  opts.forEach(w=>{const b=document.createElement("button");b.type="button";b.className="qopt";b.textContent=w;b.onclick=()=>answer(b,w===q.b.w,q);box.append(b);});
+ }
+ function answer(btn,ok,q){
+  document.querySelectorAll("#quizOpts .qopt").forEach(b=>{b.disabled=true;if(b.textContent===q.b.w)b.classList.add("ok");});
+  if(!ok)btn.classList.add("no"); else quiz.score++;
+  vMsg(ok?"good":"bad",ok?"Correct!":"Not quite","Answer: "+q.f.f+" — "+q.f.fr,"#quizRes"); say(q.f.fr);
+  const last=quiz.n===quiz.items.length-1; $("#quizNext").textContent=last?"See my result":"Next question →"; $("#quizNext").hidden=false;
+ }
+ $("#quizNext").onclick=()=>{
+  if(quiz.n<quiz.items.length-1){quiz.n++;showQ();return;}
+  const sc=quiz.score,tot=quiz.items.length;
+  if(tense==="present"&&(vs.best[quiz.verb]===undefined||sc>vs.best[quiz.verb])){vs.best[quiz.verb]=sc;saveV();buildSelect();}
+  $("#quizQ").textContent="Score: "+sc+" / "+tot; $("#quizEn").textContent=sc===tot?"Parfait!":"Try again to improve your score.";
+  $("#quizOpts").replaceChildren(); vMsg(sc===tot?"good":"warn","Quiz finished","You answered "+sc+" of "+tot+" correctly.","#quizRes");
+  $("#quizNext").textContent="Try again"; $("#quizNext").onclick=()=>{startQuiz();bindNext();};
+ };
+ function bindNext(){ $("#quizNext").onclick=null; $("#quizNext").onclick=nextHandler; }
+ const nextHandler=$("#quizNext").onclick;
+ $("#quizBack").onclick=()=>{try{speechSynthesis.cancel();}catch(e){} bindNext(); renderVerb();};
+ $("#vQuiz").onclick=startQuiz;
+ $("#vAll").onclick=()=>say(VERBS[vi][tense].map(f=>spoken(f.f)));
+ $("#vPrev").onclick=()=>{if(vi>0){vi--;renderVerb();}};
+ $("#vNext").onclick=()=>{if(vi<VERBS.length-1){vi++;renderVerb();}};
+ sel.onchange=()=>{vi=Number(sel.value)||0;renderVerb();};
+ buildSelect();renderVerb();
+ tabBtn.addEventListener("click",()=>{try{speechSynthesis.cancel();}catch(e){}stopRec();});
+})();
 switchTab('learn');
 </script>
 </body>
