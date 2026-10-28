@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-6XUkIbqGZSklA50eMujWcWXldYW5vQtEUv9I7k4TqV8='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-rBUC5q3Yd4oYre3IIg5CfxqkMezvrOWzt/mtduz+YVw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>French AI Tutor V3.1 — Tab Navigation</title>
@@ -109,6 +109,8 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding-bottom
 nav{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 0 calc(14px + env(safe-area-inset-bottom));background:var(--bg)}
 nav button{min-height:52px;border-radius:26px;background:var(--surface);box-shadow:var(--shadow);font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--accent)}
 nav button:disabled{opacity:.4;cursor:default}
+nav .nextlisten{grid-column:1 / -1;background:var(--accent);color:var(--accent-ink)}
+body.convmode .nextlisten{display:none}
 nav svg{width:20px;height:20px}
 
 dialog{border:0;border-radius:24px;padding:0;background:var(--surface);color:var(--ink);width:min(92vw,420px);max-height:82dvh;box-shadow:0 20px 60px rgba(0,0,0,.4)}
@@ -255,6 +257,9 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     </button>
     <button id="next">
       Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+    <button id="nextListen" class="nextlisten">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>Next and Listen
     </button>
   </nav>
 
@@ -560,7 +565,7 @@ function render(dir){
   $("#count").textContent = (st.i + 1) + " / " + N;
   $("#barFill").style.width = ((st.i + 1) / N * 100) + "%";
   $("#prev").disabled = st.i === 0;
-  $("#next").disabled = st.i === N - 1;
+  $("#next").disabled = st.i === N - 1; $("#nextListen").disabled = st.i === N - 1 && st.mode !== "review";
   $("#jump").value = st.i;
   $("#slow").setAttribute("aria-pressed", st.slow);
   stopAll(); clearResult(); save();
@@ -1046,6 +1051,7 @@ $("#listen").onclick = speak;
 $("#slow").onclick = () => { st.slow = !st.slow; $("#slow").setAttribute("aria-pressed", st.slow); save(); };
 $("#record").onclick = toggleRecord;
 $("#prev").onclick = () => go(-1);
+$("#nextListen").onclick = () => { if (st.mode === "review") pickReview(); else go(1); speak(); };
 $("#next").onclick = () => st.mode === "review" ? pickReview() : go(1);
 document.addEventListener("keydown", e => {
   if (document.querySelector("dialog[open]") || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
