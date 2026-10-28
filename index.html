@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-U2hZPqUAm6+xHrv5LU8t8QXbSWw8BM6oTPxfbwpHV1w='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-6XUkIbqGZSklA50eMujWcWXldYW5vQtEUv9I7k4TqV8='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>French AI Tutor V3.1 — Tab Navigation</title>
@@ -171,6 +171,7 @@ html{scroll-padding-bottom:95px}
 #translatePanel .custom-controls{flex-wrap:wrap}
 #translatePanel .custom-controls .big{flex-basis:45%}
 @media(max-width:350px){.bottom-tabs button{font-size:.68rem}.activity-header{flex-direction:column;align-items:flex-start}}
+body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body.convmode #card,body.convmode #listen,body.convmode .actions .meta{display:none!important}
 </style>
 </head>
 <body>
@@ -985,6 +986,9 @@ function updateStats(){
 function setMode(m){
  st.mode=m;save();document.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("active",b.dataset.mode===m));
  $("#convbox").classList.toggle("on",m==="conversation");
+ document.body.classList.toggle("convmode",m==="conversation");
+ (function(){const cb=$("#convbox"),ac=document.querySelector(".actions");
+  if(m==="conversation"){ac.parentNode.insertBefore(cb,ac);} else {const n=$("#recognitionNotice");n.parentNode.insertBefore(cb,n.nextSibling);}})();
  $("#record").style.display=(m==="learn")?"none":"flex";
  $("#replay").style.display=(m==="learn")?"none":"flex";
  $("#replayNote").style.display=(m==="learn")?"none":"block"; syncCheck();
