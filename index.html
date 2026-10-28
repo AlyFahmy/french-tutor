@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-weIohZzFdbtzLHKUWT19jEdFVSJdj+sU2sTDX2RKFZw='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-TSoetV03yVT5CAs0lw7HfURCZ7A3WiGmCSLTLD4DvY0='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>French AI Tutor V3.2 — Verbs</title>
@@ -1139,7 +1139,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
 /* ---------- V3.2 Verbs tab ---------- */
 (function(){
  const tabBtn=document.querySelector('[data-tab="verbs"]');
- if(typeof VERBS==="undefined"||!Array.isArray(VERBS)||!VERBS.length){ if(tabBtn)tabBtn.hidden=true; document.querySelector(".bottom-tabs").style.gridTemplateColumns="repeat(4,minmax(0,1fr))"; return; }
+ if(typeof VERBS==="undefined"||!Array.isArray(VERBS)||!VERBS.length){ if(tabBtn)tabBtn.style.display="none"; document.querySelector(".bottom-tabs").style.gridTemplateColumns="repeat(4,minmax(0,1fr))"; return; }
  panels.verbs=$("#verbsPanel");
  const KEY="fr-verbs-v1"; let vs={best:{}};
  try{ vs=Object.assign(vs,JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
@@ -1148,8 +1148,8 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
  let vi=0, tense="present", vrec=null, quiz=null;
  const sel=$("#verbSel");
  const tensesOf=v=>Object.keys(TN).filter(t=>v[t]&&v[t].length);
- const spoken=f=>f.replace(/ \/ elles?/,"");
- const lastWord=f=>spoken(f).split(/[\s’']+/).pop();
+ const spoken=f=>f.replace(/ \/ elles?/,"").replace(/\([^)]*\)/g,"");
+ const answerOf=f=>f.a||spoken(f.f).replace(/^(j[’']|je |tu |il |elle |nous |vous |ils |elles )/i,"");
  function vMsg(tone,title,detail,id){
   const root=$(id||"#vResult"),head=document.createElement("div"),body=document.createElement("div");
   head.className="title "+tone;head.textContent=title;body.className="detail";body.textContent=detail;
@@ -1159,7 +1159,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   if(!synthOK){vMsg("bad","Playback unavailable","This browser can't play speech. Try Chrome, Edge or Safari.");return;}
   speechSynthesis.cancel();
   const list=(Array.isArray(texts)?texts:[texts]).map(t=>{
-   const u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";
+   const u=new SpeechSynthesisUtterance(String(t).replace(/\([^)]*\)/g,""));u.lang="fr-FR";
    const v=voices.find(v=>v.voiceURI===st.voice)||voices.find(v=>/fr[-_]FR/i.test(v.lang))||voices[0];
    if(v){u.voice=v;u.lang=v.lang;} u.rate=st.slow?0.55:st.rate; return u;
   });
@@ -1201,7 +1201,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   let got=false;
   r.onresult=e=>{
    got=true; const alts=Array.from(e.results[0]).map(x=>x.transcript);
-   const targets=[norm(spoken(f.f)),norm(lastWord(f.f))]; let best=0,heard=alts[0]||"";
+   const targets=[norm(spoken(f.f)),norm(answerOf(f))]; let best=0,heard=alts[0]||"";
    alts.forEach(t=>{const h=norm(t);targets.forEach(g=>{const s=1-lev(h,g)/Math.max(h.length,g.length,1);if(s>best){best=s;heard=t;}});});
    const pct=Math.round(best*100);
    if(best>=0.9)vMsg("good","Très bien! · "+pct+"% recognition match","Heard: “"+heard+"”. Several forms sound the same in French, so check the spelling too.");
@@ -1215,14 +1215,14 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
  /* quiz */
  const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  function blank(f){
-  const w=lastWord(f.f), re=new RegExp("(^|[^\\p{L}])("+w+")(?![\\p{L}])","iu"), m=re.exec(f.fr);
+  const w=answerOf(f), re=new RegExp("(^|[^\\p{L}])("+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")(?![\\p{L}])","iu"), m=re.exec(f.fr);
   if(!m)return null; const at=m.index+m[1].length;
   return {w, text:f.fr.slice(0,at)+"____"+f.fr.slice(at+w.length)};
  }
  function startQuiz(){
   stopRec(); try{speechSynthesis.cancel();}catch(e){}
   const v=VERBS[vi], forms=v[tense], items=forms.map(f=>({f,b:blank(f)})).filter(x=>x.b);
-  const all=Array.from(new Set(forms.map(f=>lastWord(f.f))));
+  const all=Array.from(new Set(forms.map(f=>answerOf(f))));
   quiz={items:shuffle(items),n:0,score:0,all,verb:v.inf};
   $("#verbMain").hidden=true;$("#quizBox").hidden=false;$("#verbsPanel").classList.add("inquiz");$("#quizTitle").textContent="Quiz · "+v.inf+" · "+TN[tense];
   showQ();
