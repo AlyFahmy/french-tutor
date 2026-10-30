@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-PTeXXaDkxeE2G+Ls0HAxIAQO0lugQOA2xWASt21DKeE='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-OHi+8BsuZn8k77kKyI8gNbHToaaFpTeifBsJYP21xJk='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V3.4 — Grammar Topics</title>
+<title>French AI Tutor V3.5 — Tenses</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -187,10 +187,10 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
 .qopt{display:block;width:100%;margin:8px 0;padding:13px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-weight:650;font-size:1.05rem}
 .qopt.ok{background:var(--accent-soft);border-color:var(--good);color:var(--good)}.qopt.no{border-color:var(--bad);color:var(--bad)}
 .qopt:disabled{opacity:1}
-#verbsPanel.inquiz .lessonbox,#verbsPanel.inquiz #tenseChips{display:none!important}
+#verbsPanel.inquiz .lessonbox,#verbsPanel.inquiz #tenseBar{display:none!important}
 @media(max-width:350px){.bottom-tabs button{font-size:.62rem}}
 #verbsPanel.ingram .lessonbox{display:none!important}
-#tenseChips{flex-wrap:nowrap;gap:6px}#tenseChips .chip{flex:1;padding:6px 4px;font-size:.84rem;white-space:nowrap;text-align:center}
+.tensebar{display:flex;gap:8px;align-items:center;margin:8px 0}.tensebar select{flex:1;min-width:0;padding:9px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:inherit;font:inherit;font-weight:650}.tensebar .chip{flex:none;white-space:nowrap;padding:9px 12px}#gramBtn[aria-pressed=true]{background:var(--accent-soft);border-color:var(--good)}.vsoon{margin:14px 0;padding:14px;border-radius:16px;background:var(--surface);border:1px dashed var(--line);text-align:center}
 .grule{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0;scroll-margin-top:10px}
 .grule.warn{background:#fff6dc;border-color:#f0d58a;color:#3a2f10}
 .grule h3{margin:0 0 6px;font-size:1.02rem;color:var(--accent)}.grule.warn h3{color:#8a5a00}
@@ -216,7 +216,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V3.4</h1>
+    <h1>French AI Tutor · V3.5</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -324,7 +324,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
   </section>
   <section id="verbsPanel" class="tab-panel" hidden>
     <div class="activity-header"><span>🔤 Verbs</span><span class="subtle" id="verbCount"></span></div>
-    <div class="chips" id="tenseChips" hidden></div>
+    <div class="tensebar" id="tenseBar"><select id="tenseSel" aria-label="Choose a tense"></select><button type="button" id="gramBtn" class="chip">📘 Grammar</button></div>
     <div class="lessonbox"><strong>Verb</strong><select id="verbSel" aria-label="Choose a verb"></select></div>
     <div id="verbMain">
       <section class="card vcard">
@@ -333,9 +333,10 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
         <div class="gloss" id="vEn"></div>
         <div id="vList"></div>
       </section>
+      <div class="vsoon" id="vSoon" hidden></div>
       <button class="chip" id="vRule" type="button" hidden>📘 See the rule</button>
-      <div class="actions">
-        <button class="big listen" id="vAll" type="button"><span>🔊 Listen to all six forms</span></button>
+      <div class="actions" id="vActions">
+        <button class="big listen" id="vAll" type="button"><span>🔊 Listen to all forms</span></button>
         <button class="big replay" id="vQuiz" type="button"><span>✎ Quick quiz on this verb</span></button>
       </div>
       <div class="result" id="vResult" aria-live="polite" hidden></div>
@@ -1165,11 +1166,12 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
  const KEY="fr-verbs-v1"; let vs={best:{}};
  try{ vs=Object.assign(vs,JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
  const saveV=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(vs)); }catch(e){} };
- const TN={present:"Présent",passe:"Passé composé",futur:"Futur proche"}, CL={present:"Présent",passe:"Passé",futur:"Futur",grammar:"Grammar"};
+ const TN={present:"Présent",passe:"Passé composé",imparfait:"Imparfait",futur:"Futur proche",futurs:"Futur simple",imperatif:"Impératif"};
  const hasG=typeof GRAMMAR!=="undefined"&&Array.isArray(GRAMMAR)&&GRAMMAR.length;
- let vi=0, tense="present", vrec=null, quiz=null, gIdx=-1;
+ let vi=0, tense="present", lastTense="present", vrec=null, quiz=null, gIdx=-1;
  const sel=$("#verbSel");
  const tensesOf=v=>Object.keys(TN).filter(t=>v[t]&&v[t].length);
+ const allT=Object.keys(TN).filter(t=>VERBS.some(v=>v[t]&&v[t].length));
  const spoken=f=>f.replace(/ \/ elles?/,"").replace(/\([^)]*\)/g,"");
  const answerOf=f=>f.a||spoken(f.f).replace(/^(j[’']|je |tu |il |elle |nous |vous |ils |elles )/i,"");
  function vMsg(tone,title,detail,id){
@@ -1195,16 +1197,28 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   $("#verbCount").textContent=VERBS.length+" verbs";
  }
  function renderVerb(){
-  stopRec(); const v=VERBS[vi]; const ts=tensesOf(v); if(!ts.includes(tense)&&!(tense==="grammar"&&hasG))tense=ts[0];
+  stopRec(); const v=VERBS[vi];
+  if(tense!=="grammar")lastTense=tense;
   $("#vInf").textContent=v.inf;$("#vIpa").textContent=v.ipa;$("#vEn").textContent=v.en;
-  const box=$("#tenseChips"); box.replaceChildren(); const ts2=ts.concat(hasG?["grammar"]:[]); box.hidden=ts2.length<2;
-  ts2.forEach(t=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=CL[t];b.setAttribute("aria-pressed",String(t===tense));b.onclick=()=>{tense=t;if(t==="grammar")gIdx=-1;renderVerb();};box.append(b);});
+  const ts=$("#tenseSel"); ts.replaceChildren();
+  allT.forEach(t=>{const o=document.createElement("option");o.value=t;o.textContent=TN[t];ts.append(o);});
+  ts.value=lastTense; ts.hidden=allT.length<2;
+  ts.onchange=()=>{tense=ts.value;lastTense=tense;renderVerb();};
+  const gb=$("#gramBtn"); gb.hidden=!hasG; gb.setAttribute("aria-pressed",String(tense==="grammar"));
+  gb.onclick=()=>{ if(tense==="grammar"){tense=lastTense;}else{tense="grammar";gIdx=-1;} renderVerb(); };
   if(tense==="grammar"){renderGrammar();return;}
+  $("#vSoon").hidden=true;
+  if(!(v[tense]&&v[tense].length)){
+   $("#vList").replaceChildren(); $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram");
+   $("#vSoon").textContent=TN[tense]+" for “"+v.inf+"” is coming soon."; $("#vSoon").hidden=false; $("#vRule").hidden=true; $("#vActions").hidden=true; sel.value=String(vi);
+   $("#vPrev").disabled=vi===0; $("#vNext").disabled=vi===VERBS.length-1; return;
+  }
+  $("#vActions").hidden=false;
   const list=$("#vList"); list.replaceChildren();
   v[tense].forEach(f=>{
    const row=document.createElement("div");row.className="vrow";
    const top=document.createElement("div");top.className="vtop";
-   const form=document.createElement("span");form.className="vform";form.textContent=f.f;
+   const form=document.createElement("span");form.className="vform";form.textContent=tense==="imperatif"?f.f+" !  ("+f.p+")":f.f;
    const ipa=document.createElement("span");ipa.className="vipa";ipa.textContent=f.ipa;
    const b1=document.createElement("button");b1.type="button";b1.textContent="🔊";b1.setAttribute("aria-label","Listen to "+f.f);b1.onclick=()=>say(spoken(f.f));
    const b2=document.createElement("button");b2.type="button";b2.className="vmic";b2.textContent="🎤";b2.setAttribute("aria-label","Say "+f.f+" and check it");b2.onclick=()=>sayCheck(f,b2);
@@ -1213,7 +1227,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
    const sm=document.createElement("small");sm.textContent=f.en;ex.append(sm);ex.onclick=()=>say(f.fr);
    row.append(top,ex);list.append(row);
   });
-  $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram"); $("#vRule").hidden=!hasG||tense==="present"; sel.value=String(vi);
+  $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram"); $("#vRule").hidden=!hasG||!(tense==="passe"||tense==="futur"); sel.value=String(vi);
   $("#vPrev").disabled=vi===0; $("#vNext").disabled=vi===VERBS.length-1;
  }
  function stopRec(){ try{ if(vrec){vrec.onend=null;vrec.abort();} }catch(e){} vrec=null; document.querySelectorAll(".vmic.on").forEach(b=>b.classList.remove("on")); }
@@ -1330,7 +1344,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   $("#verbMain").hidden=true;$("#quizBox").hidden=true;box.hidden=false;$("#verbsPanel").classList.add("ingram");
  }
  $("#vRule").onclick=()=>{
-  gIdx=tense==="futur"?0:1; tense="grammar"; renderVerb(); window.scrollTo(0,0);
+  gIdx=lastTense==="futur"?0:1; tense="grammar"; renderVerb(); window.scrollTo(0,0);
  };
  buildSelect();renderVerb();
  tabBtn.addEventListener("click",()=>{try{speechSynthesis.cancel();}catch(e){}stopRec();});
