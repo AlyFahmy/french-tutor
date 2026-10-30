@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-OHi+8BsuZn8k77kKyI8gNbHToaaFpTeifBsJYP21xJk='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-TeB7Fs0bkt5bQJuHEhVJV5PdMSujY16upxp9rBvmiUQ='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>French AI Tutor V3.5 — Tenses</title>
@@ -1210,7 +1210,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   $("#vSoon").hidden=true;
   if(!(v[tense]&&v[tense].length)){
    $("#vList").replaceChildren(); $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram");
-   $("#vSoon").textContent=TN[tense]+" for “"+v.inf+"” is coming soon."; $("#vSoon").hidden=false; $("#vRule").hidden=true; $("#vActions").hidden=true; sel.value=String(vi);
+   $("#vSoon").textContent=(tense==="imperatif"&&v.noimp)?"“"+v.inf+"” has no common imperative in everyday French.":TN[tense]+" for “"+v.inf+"” is coming soon."; $("#vSoon").hidden=false; $("#vRule").hidden=true; $("#vActions").hidden=true; sel.value=String(vi);
    $("#vPrev").disabled=vi===0; $("#vNext").disabled=vi===VERBS.length-1; return;
   }
   $("#vActions").hidden=false;
