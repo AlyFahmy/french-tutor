@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-dRvjbJDDb/kCBwUnjnP3J9B5aoC2RkjaUkZih7R4z9Q='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-nphIryL9uRDZhIQ1GqCe9s7OZCyNcMAlk/OZw2oRtr0='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V4.0 — Plus-que-parfait</title>
+<title>French AI Tutor V4.1 — Level Groups</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -216,7 +216,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V4.0</h1>
+    <h1>French AI Tutor · V4.1</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -1045,7 +1045,17 @@ if (typeof WORDS_EXTRA !== "undefined") {
 }
 $("#courseCount").textContent = N + " words & phrases";
 const lessonSel=$("#lesson");
-LESSONS.forEach(x=>{const o=document.createElement("option");o.value=x[0];o.textContent=x[1];lessonSel.appendChild(o)});
+(function(){
+ const groups=[["A1–A2 course",/^\d+\. (?!B[12] · )/],["B1",/^\d+\. B1 · /],["B2",/^\d+\. B2 · /]];
+ const used=new Set();
+ LESSONS.forEach(x=>{ if(x[0]==="all"){const o=document.createElement("option");o.value=x[0];o.textContent=x[1];lessonSel.appendChild(o);used.add(x);} });
+ groups.forEach(g=>{
+  const items=LESSONS.filter(x=>!used.has(x)&&g[1].test(x[1])); if(!items.length)return;
+  const og=document.createElement("optgroup");og.label=g[0];
+  items.forEach(x=>{used.add(x);const o=document.createElement("option");o.value=x[0];o.textContent=x[1].replace(/ B[12] · /," ");og.appendChild(o);});
+  lessonSel.appendChild(og);
+ });
+})();
 lessonSel.value=st.lesson||"all";
 function lessonRange(){return LESSONS.find(x=>x[0]===st.lesson)||LESSONS[0]}
 lessonSel.onchange=()=>{st.lesson=lessonSel.value;const r=lessonRange();st.i=r[2];save();render(0)};
