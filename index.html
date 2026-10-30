@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-9hCbTZotGyCy+DMH+pb6MxRY3ghw6Tb3U0DM91CC4Ow='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-wYNzbyQVkC88gv9kL8oeWTqHs+chWCA8vuRsogS7R0M='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V3.8 — Conditionnel</title>
+<title>French AI Tutor V3.9 — Subjonctif</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -216,7 +216,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V3.8</h1>
+    <h1>French AI Tutor · V3.9</h1>
     <button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -1166,7 +1166,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
  const KEY="fr-verbs-v1"; let vs={best:{}};
  try{ vs=Object.assign(vs,JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
  const saveV=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(vs)); }catch(e){} };
- const TN={present:"Présent",passe:"Passé composé",imparfait:"Imparfait",futur:"Futur proche",futurs:"Futur simple",imperatif:"Impératif",cond:"Conditionnel"};
+ const TN={present:"Présent",passe:"Passé composé",imparfait:"Imparfait",futur:"Futur proche",futurs:"Futur simple",imperatif:"Impératif",cond:"Conditionnel",subj:"Subjonctif"};
  const hasG=typeof GRAMMAR!=="undefined"&&Array.isArray(GRAMMAR)&&GRAMMAR.length;
  let vi=0, tense="present", lastTense="present", vrec=null, quiz=null, gIdx=-1;
  const sel=$("#verbSel");
@@ -1227,7 +1227,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
    const sm=document.createElement("small");sm.textContent=f.en;ex.append(sm);ex.onclick=()=>say(f.fr);
    row.append(top,ex);list.append(row);
   });
-  $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram"); $("#vRule").hidden=!hasG||!["passe","futur","imparfait","futurs","imperatif","cond"].includes(tense); sel.value=String(vi);
+  $("#vResult").hidden=true; $("#quizBox").hidden=true; $("#verbMain").hidden=false; $("#grammarBox").hidden=true; $("#verbsPanel").classList.remove("inquiz","ingram"); $("#vRule").hidden=!hasG||!["passe","futur","imparfait","futurs","imperatif","cond","subj"].includes(tense); sel.value=String(vi);
   $("#vPrev").disabled=vi===0; $("#vNext").disabled=vi===VERBS.length-1;
  }
  function stopRec(){ try{ if(vrec){vrec.onend=null;vrec.abort();} }catch(e){} vrec=null; document.querySelectorAll(".vmic.on").forEach(b=>b.classList.remove("on")); }
@@ -1309,7 +1309,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
    c.blocks.forEach(b=>{
     if(b.t==="p")card.append(gel("p","",b.x));
     else if(b.t==="formula")card.append(gel("div","gformula",b.x));
-    else if(b.t==="note")card.append(gel("p","gnote",b.x));
+    else if(b.t==="note"){const e=gel("p","gnote",b.x);e.dir="auto";card.append(e);}
     else if(b.t==="neg"){card.append(gel("div","gsub","Negative"));card.append(grow(b,true));}
     else if(b.t==="table"||b.t==="ex"||b.t==="kv"){
      if(b.title)card.append(gel("div","gsub",b.title));
@@ -1344,7 +1344,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
   $("#verbMain").hidden=true;$("#quizBox").hidden=true;box.hidden=false;$("#verbsPanel").classList.add("ingram");
  }
  $("#vRule").onclick=()=>{
-  gIdx=lastTense==="cond"?12:/^(se |s[’'])/.test(VERBS[vi].inf)?11:({futur:0,passe:1,imparfait:7,futurs:9,imperatif:10})[lastTense]??1; tense="grammar"; renderVerb(); window.scrollTo(0,0);
+  gIdx=lastTense==="subj"?13:lastTense==="cond"?12:/^(se |s[’'])/.test(VERBS[vi].inf)?11:({futur:0,passe:1,imparfait:7,futurs:9,imperatif:10})[lastTense]??1; tense="grammar"; renderVerb(); window.scrollTo(0,0);
  };
  buildSelect();renderVerb();
  tabBtn.addEventListener("click",()=>{try{speechSynthesis.cancel();}catch(e){}stopRec();});
