@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-w6UgH5aEs8p6XCNX6/ub/51cblRMgc1GGQmeheqTpWE='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-lM/c8gqp8np9BWw+sWT7HvVUthXNEQDSFHrUsXDDbYU='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V4.2 — Slang Tab</title>
+<title>French AI Tutor V4.3 — Slang Examples</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -229,7 +229,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V4.2</h1>
+    <h1>French AI Tutor · V4.3</h1>
     <div class="hright"><button class="icon-btn" id="progBtn" aria-label="My progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></button><button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button></div>
@@ -1382,7 +1382,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
 })();
 switchTab('learn');
 
-/* ---------- V4.2 Slang tab ---------- */
+/* ---------- V4.3 Slang tab ---------- */
 (function(){
  const tabBtn=document.querySelector('[data-tab="slang"]');
  const ok=typeof SLANG!=="undefined"&&Array.isArray(SLANG)&&SLANG.length;
@@ -1409,6 +1409,7 @@ switchTab('learn');
   x.append(document.createTextNode("“"+s.ex.fr+"” 🔊"),el("small",null,s.ex.en),el("span","a",s.ex.ar));
   x.addEventListener("click",()=>speakFr(s.ex.fr));
   d.append(p1,x);
+  (s.more||[]).forEach(m=>{const y=el("button","slg-x"); y.type="button"; y.append(document.createTextNode("“"+m.fr+"” 🔊"),el("small",null,m.en),el("span","a",m.ar)); y.addEventListener("click",()=>speakFr(m.fr)); d.append(y)});
   const tog=()=>{d.hidden=!d.hidden;h.setAttribute("aria-expanded",String(!d.hidden))};
   h.addEventListener("click",tog); h.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tog()}});
   c.append(h,ar,d); return c;
