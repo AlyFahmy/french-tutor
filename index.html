@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-nphIryL9uRDZhIQ1GqCe9s7OZCyNcMAlk/OZw2oRtr0='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-w6UgH5aEs8p6XCNX6/ub/51cblRMgc1GGQmeheqTpWE='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V4.1 — Level Groups</title>
+<title>French AI Tutor V4.2 — Slang Tab</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -41,7 +41,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .app{width:min(100%,460px);min-height:100dvh;display:flex;flex-direction:column;padding:0 20px}
 
-header{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 0 6px}
+header{display:grid;grid-template-columns:44px 1fr 92px;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 0 6px}
+.hright{display:flex;justify-content:flex-end}
 header h1{font-size:1.15rem;font-weight:700;text-align:center;letter-spacing:.01em}
 .icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--ink)}
 .icon-btn:hover{background:var(--surface-2)}
@@ -190,6 +191,18 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
 #verbsPanel.inquiz .lessonbox,#verbsPanel.inquiz #tenseBar{display:none!important}
 @media(max-width:350px){.bottom-tabs button{font-size:.62rem}}
 #verbsPanel.ingram .lessonbox{display:none!important}
+.slgnote{margin:8px 0;padding:10px 12px;border-radius:14px;background:var(--accent-soft);color:var(--ink);font-size:.88rem;line-height:1.4}
+.slg{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:8px 0;overflow:hidden}
+.slg-h{display:grid;grid-template-columns:34px 1fr 44px;gap:8px;align-items:center;width:100%;padding:10px 6px 10px 12px;text-align:left;color:var(--ink)}
+.slg-e{font-size:1.5rem;text-align:center}
+.slg-fr{font-weight:700;font-size:1.05rem;overflow-wrap:anywhere}.slg-fr small{font-weight:500;color:var(--muted);font-size:.8rem;margin-left:6px}
+.slg-en{color:var(--muted);font-size:.9rem}
+.slg-ar{font-size:1.05rem;direction:rtl;text-align:right;font-family:"Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;padding:0 12px 10px 12px}
+.slg-sp{width:44px;height:44px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:1.05rem}
+.slg-d{padding:0 12px 12px;border-top:1px dashed var(--line);font-size:.92rem;line-height:1.4}
+.slg-d p{margin:8px 0 0}.slg-tag{display:inline-block;padding:2px 8px;border-radius:10px;background:var(--surface-2);color:var(--muted);font-size:.75rem;font-weight:650}
+.slg-x{display:block;width:100%;text-align:left;margin-top:8px;color:var(--ink)}.slg-x small{display:block;color:var(--muted)}.slg-x .a{direction:rtl;text-align:right;display:block;color:var(--muted)}
+
 .tensebar{display:flex;gap:8px;align-items:center;margin:8px 0}.tensebar select{flex:1;min-width:0;padding:9px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:inherit;font:inherit;font-weight:650}.tensebar .chip{flex:none;white-space:nowrap;padding:9px 12px}.tensebar .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.vsoon{margin:14px 0;padding:14px;border-radius:16px;background:var(--surface);border:1px dashed var(--line);text-align:center}
 .grule{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0;scroll-margin-top:10px}
 .grule.warn{background:#fff6dc;border-color:#f0d58a;color:#3a2f10}
@@ -216,10 +229,10 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V4.1</h1>
-    <button class="icon-btn" id="setBtn" aria-label="Settings">
+    <h1>French AI Tutor · V4.2</h1>
+    <div class="hright"><button class="icon-btn" id="progBtn" aria-label="My progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></button><button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-    </button>
+    </button></div>
   </header>
 
 
@@ -355,12 +368,19 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
       <div class="actions"><button class="big listen" id="quizNext" type="button" hidden>Next question →</button><button class="big replay" id="quizBack" type="button">Back to the verb</button></div>
     </div>
   </section><!-- verbsPanel -->
+  <section id="slangPanel" class="tab-panel" hidden>
+    <h2 class="panel-title">😎 Argot &amp; Slang</h2>
+    <p class="subtle intro">How French people really talk with friends.</p>
+    <p class="slgnote">Slang is for friends and informal talk. Do not use it with a boss, a teacher or in a formal email.</p>
+    <div class="chips" id="slgChips" role="group" aria-label="Slang category"></div>
+    <div id="slgList"></div>
+  </section><!-- slangPanel -->
   <div class="bottom-tabs" role="tablist" aria-label="Main navigation">
     <button type="button" role="tab" aria-selected="true" data-tab="learn"><span class="tab-icon">📖</span><span>Learn</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="translate"><span class="tab-icon">🌍</span><span>Translate</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="practice"><span class="tab-icon">🎙️</span><span>Practice</span></button>
     <button type="button" role="tab" aria-selected="false" data-tab="verbs"><span class="tab-icon">🔤</span><span>Verbs</span></button>
-    <button type="button" role="tab" aria-selected="false" data-tab="progress"><span class="tab-icon">📈</span><span>Progress</span></button>
+    <button type="button" role="tab" aria-selected="false" data-tab="slang"><span class="tab-icon">😎</span><span>Slang</span></button>
   </div>
 </div>
 
@@ -1165,6 +1185,7 @@ function switchTab(tab){
 }
 function updatePracticeButtons(){document.getElementById('pronounceMode').classList.toggle('active',st.mode!=='conversation');document.getElementById('conversationMode').classList.toggle('active',st.mode==='conversation');}
 tabButtons.forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.getElementById('progBtn').addEventListener('click',()=>switchTab('progress'));
 document.getElementById('pronounceMode').addEventListener('click',()=>{setMode('pronounce');updatePracticeButtons()});
 document.getElementById('conversationMode').addEventListener('click',()=>{setMode('conversation');updatePracticeButtons()});
 document.getElementById('startReview').addEventListener('click',()=>{switchTab('practice');setMode('review');updatePracticeButtons()});
@@ -1360,6 +1381,47 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
  tabBtn.addEventListener("click",()=>{try{speechSynthesis.cancel();}catch(e){}stopRec();});
 })();
 switchTab('learn');
+
+/* ---------- V4.2 Slang tab ---------- */
+(function(){
+ const tabBtn=document.querySelector('[data-tab="slang"]');
+ const ok=typeof SLANG!=="undefined"&&Array.isArray(SLANG)&&SLANG.length;
+ if(!ok&&tabBtn)tabBtn.style.display="none";
+ const vis=Array.from(document.querySelectorAll(".bottom-tabs button")).filter(b=>b.style.display!=="none").length;
+ document.querySelector(".bottom-tabs").style.gridTemplateColumns="repeat("+vis+",minmax(0,1fr))";
+ if(!ok)return;
+ panels.slang=$("#slangPanel");
+ const CATS=[["All","All"],["Nouns","Nouns"],["Verbs","Verbs"],["Adverbs","Adverbs"],["Phrases","Phrases"]];
+ let cat="All"; const chips=$("#slgChips"), list=$("#slgList");
+ function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+ function card(s){
+  const c=el("div","slg"), h=el("div","slg-h"); h.setAttribute("role","button"); h.tabIndex=0; h.setAttribute("aria-expanded","false");
+  const fr=el("div","slg-fr",s.fr); fr.append(el("small",null,s.ipa?"/"+s.ipa+"/":""));
+  const mid=el("div"); mid.append(fr,el("div","slg-en",s.en));
+  const sp=el("button","slg-sp","🔊"); sp.type="button"; sp.setAttribute("aria-label","Listen: "+s.fr);
+  sp.addEventListener("click",e=>{e.stopPropagation();speakFr(s.fr)});
+  h.append(el("div","slg-e",s.emoji||"💬"),mid,sp);
+  const ar=el("div","slg-ar",s.ar); ar.dir="rtl";
+  const d=el("div","slg-d"); d.hidden=true;
+  const tag=el("span","slg-tag",s.reg||"informal");
+  const p1=el("p",null,s.note); p1.prepend(tag," ");
+  const x=el("button","slg-x"); x.type="button";
+  x.append(document.createTextNode("“"+s.ex.fr+"” 🔊"),el("small",null,s.ex.en),el("span","a",s.ex.ar));
+  x.addEventListener("click",()=>speakFr(s.ex.fr));
+  d.append(p1,x);
+  const tog=()=>{d.hidden=!d.hidden;h.setAttribute("aria-expanded",String(!d.hidden))};
+  h.addEventListener("click",tog); h.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tog()}});
+  c.append(h,ar,d); return c;
+ }
+ function render(){
+  list.replaceChildren();
+  SLANG.filter(s=>cat==="All"||s.cat===cat).forEach(s=>list.append(card(s)));
+  chips.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.c===cat)));
+ }
+ CATS.forEach(([k,l])=>{const n=k==="All"?SLANG.length:SLANG.filter(s=>s.cat===k).length; if(!n)return;
+  const b=el("button","chip",l); b.type="button"; b.dataset.c=k; b.addEventListener("click",()=>{cat=k;render()}); chips.append(b)});
+ render();
+})();
 </script>
 </body>
 </html>
