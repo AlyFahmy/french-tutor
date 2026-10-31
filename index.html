@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-lM/c8gqp8np9BWw+sWT7HvVUthXNEQDSFHrUsXDDbYU='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-pCCa4p1f31HKsA9C51V2Ek7sYdI+QLpYLCbcWI7WvTQ='; style-src 'unsafe-inline'; connect-src https://api.mymemory.translated.net; img-src data:; media-src blob:; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>French AI Tutor V4.3 — Slang Examples</title>
+<title>French AI Tutor V4.4 — Start Here</title>
 <style>
 :root{
   --bg:#edf0fb; --surface:#ffffff; --surface-2:#e2e7f8; --ink:#141b3d; --muted:#5d6794;
@@ -191,6 +191,9 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
 #verbsPanel.inquiz .lessonbox,#verbsPanel.inquiz #tenseBar{display:none!important}
 @media(max-width:350px){.bottom-tabs button{font-size:.62rem}}
 #verbsPanel.ingram .lessonbox{display:none!important}
+.starthere{margin:8px 0 10px;border:1px solid var(--line);border-radius:16px;background:var(--accent-soft);overflow:hidden}
+.sh-head{display:flex;justify-content:space-between;align-items:center;width:100%;padding:11px 14px;font-weight:700;color:var(--accent);font-size:1rem;min-height:44px}
+.sh-body{margin:0;padding:0 14px 12px 34px;font-size:.92rem;line-height:1.45;color:var(--ink)}.sh-body li{margin:4px 0}
 .slgnote{margin:8px 0;padding:10px 12px;border-radius:14px;background:var(--accent-soft);color:var(--ink);font-size:.88rem;line-height:1.4}
 .slg{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:8px 0;overflow:hidden}
 .slg-h{display:grid;grid-template-columns:34px 1fr 44px;gap:8px;align-items:center;width:100%;padding:10px 6px 10px 12px;text-align:left;color:var(--ink)}
@@ -229,7 +232,7 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
     <button class="icon-btn" id="listBtn" aria-label="Word list">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
     </button>
-    <h1>French AI Tutor · V4.3</h1>
+    <h1>French AI Tutor · V4.4</h1>
     <div class="hright"><button class="icon-btn" id="progBtn" aria-label="My progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></button><button class="icon-btn" id="setBtn" aria-label="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button></div>
@@ -239,6 +242,15 @@ body.convmode .lessonbox,body.convmode .progressbox,body.convmode .progress,body
   <div class="modebar" hidden aria-hidden="true"><button data-mode="learn">Learn</button><button data-mode="pronounce">Pronounce</button><button data-mode="review">Smart Review</button><button data-mode="conversation">Conversation</button></div>
   <div id="learnPanel" class="tab-panel">
   <div class="activity-header"><span id="activityTitle">Learn French</span><span class="subtle" id="courseCount">182 words & phrases</span></div>
+  <section id="startHere" class="starthere" aria-label="Start here">
+    <button type="button" id="startToggle" class="sh-head" aria-expanded="true"><span>👋 Start here</span><span id="startArrow" aria-hidden="true">▾</span></button>
+    <ol id="startBody" class="sh-body">
+      <li>Choose a lesson in the menu below. New to French? Start with lesson 1.</li>
+      <li>Tap 🔊 to listen. Then record yourself and check your pronunciation.</li>
+      <li>Explore the other tabs: Practice for conversations, Verbs for tenses, Slang for how friends really talk.</li>
+      <li>Begin with the A1–A2 course. Move to the B1 group when you feel comfortable.</li>
+    </ol>
+  </section>
   <div class="practice-tools" id="practiceTools" hidden><button id="pronounceMode" type="button">🎙 Pronounce</button><button id="conversationMode" type="button">💬 Conversations</button></div>
   <div class="lessonbox"><strong>Lesson</strong><select id="lesson"></select></div>
   <div class="progressbox"><div class="stat"><strong id="masteredStat">0</strong><span>Mastered</span></div><div class="stat"><strong id="practiceStat">0</strong><span>Practiced</span></div><div class="stat"><strong id="streakStat">0</strong><span>Today</span></div></div>
@@ -1181,6 +1193,7 @@ function switchTab(tab){
  if(tab==='practice' && !['pronounce','conversation','review'].includes(st.mode))setMode('pronounce');
  if(tab==='progress')refreshProgressHome();
  if(learning)updatePracticeButtons();
+ const sh=document.getElementById('startHere'); if(sh)sh.hidden=tab!=='learn';
  window.scrollTo(0,0);
 }
 function updatePracticeButtons(){document.getElementById('pronounceMode').classList.toggle('active',st.mode!=='conversation');document.getElementById('conversationMode').classList.toggle('active',st.mode==='conversation');}
@@ -1382,7 +1395,7 @@ document.getElementById('startReview').addEventListener('click',()=>{switchTab('
 })();
 switchTab('learn');
 
-/* ---------- V4.3 Slang tab ---------- */
+/* ---------- V4.4 Slang tab ---------- */
 (function(){
  const tabBtn=document.querySelector('[data-tab="slang"]');
  const ok=typeof SLANG!=="undefined"&&Array.isArray(SLANG)&&SLANG.length;
@@ -1422,6 +1435,17 @@ switchTab('learn');
  CATS.forEach(([k,l])=>{const n=k==="All"?SLANG.length:SLANG.filter(s=>s.cat===k).length; if(!n)return;
   const b=el("button","chip",l); b.type="button"; b.dataset.c=k; b.addEventListener("click",()=>{cat=k;render()}); chips.append(b)});
  render();
+})();
+
+/* ---------- V4.4 Start here ---------- */
+(function(){
+ const box=document.getElementById("startHere"),btn=document.getElementById("startToggle"),body=document.getElementById("startBody"),arrow=document.getElementById("startArrow");
+ if(!box||!btn)return;
+ const KEY="fr-starthere-v1"; let open=true;
+ try{ if(localStorage.getItem(KEY)==="closed")open=false; }catch(e){}
+ function paint(){ body.hidden=!open; btn.setAttribute("aria-expanded",String(open)); arrow.textContent=open?"▾":"▸"; }
+ btn.addEventListener("click",()=>{ open=!open; paint(); try{ localStorage.setItem(KEY,open?"open":"closed"); }catch(e){} });
+ paint();
 })();
 </script>
 </body>
